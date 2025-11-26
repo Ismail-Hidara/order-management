@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.notification";
+option java_outer_classname = "NotificationProto";
+
+package notification;
+
+// Notification Service
+service NotificationService {
+  // Send order notification
+  rpc SendOrderNotification (OrderNotificationRequest) returns (OrderNotificationResponse);
+
+  // Get notification history
+  rpc GetNotificationHistory (NotificationHistoryRequest) returns (NotificationHistoryResponse);
+}
+
+// Request message for order notification
+message OrderNotificationRequest {
+  int64 order_id = 1;
+  int64 client_id = 2;
+  string client_name = 3;
+  string client_email = 4;
+  double total_amount = 5;
+  string status = 6;
+  string message = 7;
+}
+
+// Response message for order notification
+message OrderNotificationResponse {
+  bool success = 1;
+  string message = 2;
+  string notification_id = 3;
+}
+
+// Request message for notification history
+message NotificationHistoryRequest {
+  int64 client_id = 1;
+  int32 limit = 2;
+}
+
+// Response message for notification history
+message NotificationHistoryResponse {
+  repeated NotificationRecord notifications = 1;
+}
+
+// Notification record
+message NotificationRecord {
+  string notification_id = 1;
+  int64 order_id = 2;
+  string message = 3;
+  string timestamp = 4;
+  string status = 5;
+}
+

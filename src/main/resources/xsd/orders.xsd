@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://example.com/order-management/orders"
+           targetNamespace="http://example.com/order-management/orders"
+           elementFormDefault="qualified">
+
+    <!-- Get Order Request -->
+    <xs:element name="getOrderRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="orderId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Get Order Response -->
+    <xs:element name="getOrderResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="order" type="tns:order"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Get Orders By Client Request -->
+    <xs:element name="getOrdersByClientRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clientId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Get Orders By Client Response -->
+    <xs:element name="getOrdersByClientResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="orders" type="tns:order" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Calculate Order Total Request -->
+    <xs:element name="calculateOrderTotalRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="orderId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Calculate Order Total Response -->
+    <xs:element name="calculateOrderTotalResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="total" type="xs:decimal"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Update Order Status Request -->
+    <xs:element name="updateOrderStatusRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="orderId" type="xs:long"/>
+                <xs:element name="status" type="tns:orderStatus"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Update Order Status Response -->
+    <xs:element name="updateOrderStatusResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="order" type="tns:order"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Order Type -->
+    <xs:complexType name="order">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="clientId" type="xs:long"/>
+            <xs:element name="clientName" type="xs:string"/>
+            <xs:element name="orderDate" type="xs:dateTime"/>
+            <xs:element name="status" type="tns:orderStatus"/>
+            <xs:element name="totalAmount" type="xs:decimal"/>
+            <xs:element name="shippingAddress" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Order Status Enumeration -->
+    <xs:simpleType name="orderStatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PENDING"/>
+            <xs:enumeration value="CONFIRMED"/>
+            <xs:enumeration value="PROCESSING"/>
+            <xs:enumeration value="SHIPPED"/>
+            <xs:enumeration value="DELIVERED"/>
+            <xs:enumeration value="CANCELLED"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>
+
